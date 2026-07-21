@@ -1,0 +1,30 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+appsettings.Development.json
+appsettings.Local.json
+
+# Node / Vite
+node_modules/
+dist/
+.env
+.env.local
+.env.development.local
+.env.production.local
+
+# Cobertura de pruebas
+coverage/
+**/TestResults/
+
+# Sistema operativo / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Secretos — nunca versionar
+*.pfx
+*secrets*.json

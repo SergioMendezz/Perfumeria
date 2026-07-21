@@ -1,0 +1,51 @@
+name: CI - SPA (tienda y admin)
+
+on:
+  pull_request:
+    paths:
+      - 'perfumeria-tienda/**'
+      - 'perfumeria-admin/**'
+      - '.github/workflows/ci-frontend.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'perfumeria-tienda/**'
+      - 'perfumeria-admin/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        spa: [perfumeria-tienda, perfumeria-admin]
+    defaults:
+      run:
+        working-directory: ${{ matrix.spa }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '${{ matrix.spa }}/package.json'
+          cache: 'npm'
+          cache-dependency-path: '${{ matrix.spa }}/package-lock.json'
+
+      - name: Instalar dependencias (respeta package-lock.json)
+        run: npm ci
+
+      - name: Verificar lista blanca de dependencias (ADR-Frontend-002)
+        run: |
+          if grep -E '"(axios|redux|zustand|mobx|recoil|jotai|formik|react-hook-form|yup|zod|lodash|moment|date-fns|classnames)"' package.json; then
+            echo "::error::Dependencia fuera de la lista blanca detectada. Ver docs/adr/ADR-Frontend-002-lista-blanca-dependencias.md"
+            exit 1
+          fi
+
+      - name: TypeScript estricto (sin emitir)
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Pruebas con cobertura
+        run: npm run test:coverage

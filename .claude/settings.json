@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); path=$(printf '%s' \"$input\" | grep -o '\"file_path\"[[:space:]]*:[[:space:]]*\"[^\"]*\"' | head -1); if printf '%s' \"$path\" | grep -qE 'docs/adr/|docs/constitution\\.md'; then echo 'Bloqueado por hook de gobernanza: docs/adr/*.md y docs/constitution.md no se editan directamente. Crea un ADR nuevo que supersede al actual (ver Constitution S:10.1) y pide confirmacion explicita antes de continuar.' >&2; exit 2; fi; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}

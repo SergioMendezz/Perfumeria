@@ -1,0 +1,52 @@
+name: CI - Perfumeria.Api
+
+on:
+  pull_request:
+    paths:
+      - 'Perfumeria.Api/**'
+      - '.github/workflows/ci-api.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'Perfumeria.Api/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Perfumeria.Api
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restaurar dependencias
+        run: dotnet restore
+
+      - name: Verificar formato (dotnet format)
+        run: dotnet format --verify-no-changes
+
+      - name: Compilar (warnings como errores)
+        run: dotnet build --configuration Release --no-restore /warnaserror
+
+      - name: Ejecutar pruebas con cobertura
+        run: |
+          dotnet test --configuration Release --no-build \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./coverage
+
+      - name: Escaneo de vulnerabilidades (SCA)
+        run: dotnet list package --vulnerable --include-transitive
+
+      # Regla de gobernanza (Constitution S:2.4): nunca --passWithNoTests ni equivalentes.
+      # Si este job no encuentra proyectos de prueba, debe fallar explícitamente, no pasar en silencio.
+      - name: Verificar que existen proyectos de prueba
+        run: |
+          if [ -z "$(find tests -name '*.Tests.csproj' 2>/dev/null)" ]; then
+            echo "::error::No se encontraron proyectos de prueba en tests/. Ver Constitution S:2.4."
+            exit 1
+          fi
