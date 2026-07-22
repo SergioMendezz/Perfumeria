@@ -32,10 +32,10 @@ builder.Services.AddSwaggerGen(opciones =>
         In = ParameterLocation.Header,
          Description = "Ingresar únicamente el token JWT, sin el prefijo 'Bearer ' — Swagger lo agrega automáticamente"
     });
-    opciones.AddSecurityRequirement(_ => new OpenApiSecurityRequirement
+    opciones.AddSecurityRequirement(documento => new OpenApiSecurityRequirement
     {
         {
-            new OpenApiSecuritySchemeReference("Bearer", null),
+            new OpenApiSecuritySchemeReference("Bearer", documento),
             new List<string>()
         }
     });
@@ -69,6 +69,15 @@ builder.Services
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+        };
+        opciones.IncludeErrorDetails = true;
+        opciones.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine("FALLO JWT: " + context.Exception);
+                return Task.CompletedTask;
+            }
         };
     });
 
