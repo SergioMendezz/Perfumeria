@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>BD</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{77DA0D15-3F12-4751-8C57-D9BB4CEA4C61}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>BD</RootNamespace>
+    <AssemblyName>BD</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == '' AND '$(SSDTExists)' == 'True'" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == '' AND '$(SSDTExists)' != 'True'" Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Stored Procedures" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Marcas.sql" />
+    <Build Include="dbo\Tables\Perfumes.sql" />
+    <Build Include="dbo\Tables\VariantesPerfume.sql" />
+    <Build Include="dbo\Tables\Desodorantes.sql" />
+    <Build Include="dbo\Tables\BodySprays.sql" />
+    <Build Include="dbo\Tables\ShowerGeles.sql" />
+    <Build Include="dbo\Tables\CremasCorporales.sql" />
+    <Build Include="dbo\Tables\Bodys.sql" />
+    <Build Include="dbo\Tables\Estuches.sql" />
+    <Build Include="dbo\Tables\ItemsEstuche.sql" />
+    <Build Include="dbo\Tables\Usuarios.sql" />
+    <Build Include="dbo\Tables\TokensRevocados.sql" />
+    <Build Include="dbo\Tables\Pedidos.sql" />
+    <Build Include="dbo\Tables\ItemsPedido.sql" />
+    <Build Include="dbo\Stored Procedures\Marca_Obtener.sql" />
+    <Build Include="dbo\Stored Procedures\Marca_ObtenerPorId.sql" />
+    <Build Include="dbo\Stored Procedures\Marca_Crear.sql" />
+    <Build Include="dbo\Stored Procedures\Marca_Editar.sql" />
+    <Build Include="dbo\Stored Procedures\Marca_Eliminar.sql" />
+    <Build Include="dbo\Stored Procedures\Marca_Activar.sql" />
+    <Build Include="dbo\Stored Procedures\Perfume_Obtener.sql" />
+    <Build Include="dbo\Stored Procedures\Perfume_ObtenerPorId.sql" />
+    <Build Include="dbo\Stored Procedures\Perfume_BuscarPorCodigoBarras.sql" />
+    <Build Include="dbo\Stored Procedures\Perfume_Crear.sql" />
+    <Build Include="dbo\Stored Procedures\Perfume_Editar.sql" />
+    <Build Include="dbo\Stored Procedures\Perfume_Eliminar.sql" />
+    <Build Include="dbo\Stored Procedures\Perfume_Activar.sql" />
+    <Build Include="dbo\Stored Procedures\VariantePerfume_Crear.sql" />
+    <Build Include="dbo\Stored Procedures\VariantePerfume_AjustarStockTienda.sql" />
+    <Build Include="dbo\Stored Procedures\VariantePerfume_AjustarStockVirtual.sql" />
+    <Build Include="dbo\Stored Procedures\Desodorante_Obtener.sql" />
+    <Build Include="dbo\Stored Procedures\Desodorante_ObtenerPorId.sql" />
+    <Build Include="dbo\Stored Procedures\Desodorante_BuscarPorCodigoBarras.sql" />
+    <Build Include="dbo\Stored Procedures\Desodorante_Crear.sql" />
+    <Build Include="dbo\Stored Procedures\Desodorante_Editar.sql" />
+    <Build Include="dbo\Stored Procedures\Desodorante_Eliminar.sql" />
+    <Build Include="dbo\Stored Procedures\Desodorante_Activar.sql" />
+    <Build Include="dbo\Stored Procedures\BodySpray_Obtener.sql" />
+    <Build Include="dbo\Stored Procedures\BodySpray_ObtenerPorId.sql" />
+    <Build Include="dbo\Stored Procedures\BodySpray_BuscarPorCodigoBarras.sql" />
+    <Build Include="dbo\Stored Procedures\BodySpray_Crear.sql" />
+    <Build Include="dbo\Stored Procedures\BodySpray_Editar.sql" />
+    <Build Include="dbo\Stored Procedures\BodySpray_Eliminar.sql" />
+    <Build Include="dbo\Stored Procedures\BodySpray_Activar.sql" />
+    <Build Include="dbo\Stored Procedures\ShowerGel_Obtener.sql" />
+    <Build Include="dbo\Stored Procedures\ShowerGel_ObtenerPorId.sql" />
+    <Build Include="dbo\Stored Procedures\ShowerGel_BuscarPorCodigoBarras.sql" />
+    <Build Include="dbo\Stored Procedures\ShowerGel_Crear.sql" />
+    <Build Include="dbo\Stored Procedures\ShowerGel_Editar.sql" />
+    <Build Include="dbo\Stored Procedures\ShowerGel_Eliminar.sql" />
+    <Build Include="dbo\Stored Procedures\ShowerGel_Activar.sql" />
+    <Build Include="dbo\Stored Procedures\CremaCorporal_Obtener.sql" />
+    <Build Include="dbo\Stored Procedures\CremaCorporal_ObtenerPorId.sql" />
+    <Build Include="dbo\Stored Procedures\CremaCorporal_BuscarPorCodigoBarras.sql" />
+    <Build Include="dbo\Stored Procedures\CremaCorporal_Crear.sql" />
+    <Build Include="dbo\Stored Procedures\CremaCorporal_Editar.sql" />
+    <Build Include="dbo\Stored Procedures\CremaCorporal_Eliminar.sql" />
+    <Build Include="dbo\Stored Procedures\CremaCorporal_Activar.sql" />
+    <Build Include="dbo\Stored Procedures\Body_Obtener.sql" />
+    <Build Include="dbo\Stored Procedures\Body_ObtenerPorId.sql" />
+    <Build Include="dbo\Stored Procedures\Body_BuscarPorCodigoBarras.sql" />
+    <Build Include="dbo\Stored Procedures\Body_Crear.sql" />
+    <Build Include="dbo\Stored Procedures\Body_Editar.sql" />
+    <Build Include="dbo\Stored Procedures\Body_Eliminar.sql" />
+    <Build Include="dbo\Stored Procedures\Body_Activar.sql" />
+    <Build Include="dbo\Stored Procedures\Estuche_Obtener.sql" />
+    <Build Include="dbo\Stored Procedures\Estuche_ObtenerPorId.sql" />
+    <Build Include="dbo\Stored Procedures\Estuche_Crear.sql" />
+    <Build Include="dbo\Stored Procedures\Estuche_Editar.sql" />
+    <Build Include="dbo\Stored Procedures\Estuche_Eliminar.sql" />
+    <Build Include="dbo\Stored Procedures\Estuche_Activar.sql" />
+    <Build Include="dbo\Stored Procedures\Usuario_RegistrarCliente.sql" />
+    <Build Include="dbo\Stored Procedures\Usuario_CrearAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\Usuario_ObtenerPorEmail.sql" />
+    <Build Include="dbo\Stored Procedures\Usuario_ObtenerPorId.sql" />
+    <Build Include="dbo\Stored Procedures\Usuario_Obtener.sql" />
+    <Build Include="dbo\Stored Procedures\Usuario_Editar.sql" />
+    <Build Include="dbo\Stored Procedures\Usuario_Activar.sql" />
+    <Build Include="dbo\Stored Procedures\Usuario_ActualizarUltimoAcceso.sql" />
+    <Build Include="dbo\Stored Procedures\Cliente_Obtener.sql" />
+    <Build Include="dbo\Stored Procedures\Token_Revocar.sql" />
+    <Build Include="dbo\Stored Procedures\Token_VerificarRevocado.sql" />
+    <Build Include="dbo\Stored Procedures\Pedido_Crear.sql" />
+    <Build Include="dbo\Stored Procedures\Pedido_ObtenerMisPedidos.sql" />
+    <Build Include="dbo\Stored Procedures\Pedido_ObtenerPorId.sql" />
+    <Build Include="dbo\Stored Procedures\Pedido_ConfirmarPago.sql" />
+  </ItemGroup>
+</Project>

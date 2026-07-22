@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/tests/">
+    <Project Path="tests/Abstracciones.Tests/Abstracciones.Tests.csproj" />
+    <Project Path="tests/API.Tests/API.Tests.csproj" />
+    <Project Path="tests/DA.Tests/DA.Tests.csproj" />
+    <Project Path="tests/Flujo.Tests/Flujo.Tests.csproj" />
+    <Project Path="tests/Servicios.Tests/Servicios.Tests.csproj" />
+  </Folder>
+  <Project Path="Abstracciones/Abstracciones.csproj" />
+  <Project Path="API/API.csproj" />
+  <Project Path="BD/BD.sqlproj" />
+  <Project Path="DA/DA.csproj" />
+  <Project Path="Flujo/Flujo.csproj" />
+  <Project Path="Servicios/Servicios.csproj" />
+</Solution>
