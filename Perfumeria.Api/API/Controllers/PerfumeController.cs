@@ -26,8 +26,17 @@ public class PerfumeController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet("{id}")]
-    public Task<IActionResult> ObtenerPorId(Guid id)
+    public async Task<IActionResult> ObtenerPorId(Guid id)
     {
-        throw new NotImplementedException();
+        var resultado = await _perfumeFlujo.ObtenerPorId(id);
+        return resultado is null ? NotFound() : Ok(resultado);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet("buscar-codigo-barras")]
+    public async Task<IActionResult> BuscarPorCodigoBarras(string codigo)
+    {
+        var resultado = await _perfumeFlujo.BuscarPorCodigoBarras(codigo);
+        return Ok(resultado);
     }
 }

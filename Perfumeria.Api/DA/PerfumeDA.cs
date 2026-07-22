@@ -41,12 +41,53 @@ public class PerfumeDA : IPerfumeDA
 
     public Task<PerfumeResponse?> ObtenerPorId(Guid id)
     {
-        throw new NotImplementedException();
+        using var conexion = _repositorioDapper.ObtenerRepositorio();
+        var fila = conexion.QueryFirstOrDefault(
+            "Perfume_ObtenerPorId",
+            new { Id = id },
+            commandType: CommandType.StoredProcedure);
+
+        if (fila is null)
+        {
+            return Task.FromResult<PerfumeResponse?>(null);
+        }
+
+        return Task.FromResult<PerfumeResponse?>(new PerfumeResponse
+        {
+            Id = fila.Id,
+            Marca = fila.Marca,
+            Nombre = fila.Nombre,
+            CodigoBarras = fila.CodigoBarras,
+            Genero = fila.Genero,
+            Categoria = fila.Categoria,
+            ImagenUrl = fila.ImagenUrl,
+            Descripcion = fila.Descripcion,
+            Activo = fila.Activo
+        });
     }
 
     public Task<IEnumerable<PerfumeResponse>> BuscarPorCodigoBarras(string codigo)
     {
-        throw new NotImplementedException();
+        using var conexion = _repositorioDapper.ObtenerRepositorio();
+        var filas = conexion.Query(
+            "Perfume_BuscarPorCodigoBarras",
+            new { Codigo = codigo },
+            commandType: CommandType.StoredProcedure).ToList();
+
+        IEnumerable<PerfumeResponse> items = filas.Select(fila => new PerfumeResponse
+        {
+            Id = fila.Id,
+            Marca = fila.Marca,
+            Nombre = fila.Nombre,
+            CodigoBarras = fila.CodigoBarras,
+            Genero = fila.Genero,
+            Categoria = fila.Categoria,
+            ImagenUrl = fila.ImagenUrl,
+            Descripcion = fila.Descripcion,
+            Activo = fila.Activo
+        }).ToList();
+
+        return Task.FromResult(items);
     }
 
     public Task<PerfumeResponse> Crear(PerfumeRequest request)

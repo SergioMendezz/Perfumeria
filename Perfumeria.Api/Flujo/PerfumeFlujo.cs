@@ -26,7 +26,7 @@ public class PerfumeFlujo : IPerfumeFlujo
 
     public Task<IEnumerable<PerfumeResponse>> BuscarPorCodigoBarras(string codigo)
     {
-        throw new NotImplementedException();
+        return _perfumeDA.BuscarPorCodigoBarras(codigo);
     }
 
     public Task<PerfumeResponse> Crear(PerfumeRequest request)

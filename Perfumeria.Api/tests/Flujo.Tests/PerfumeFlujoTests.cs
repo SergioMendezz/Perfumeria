@@ -51,4 +51,25 @@ public class PerfumeFlujoTests
         resultado.Categoria.Should().NotBe("EDP");
         await perfumeDA.Received(1).ObtenerPorId(id);
     }
+
+    // AC-01 (US-002): Búsqueda por código de barras completo
+    [Fact]
+    public async Task BuscarPorCodigoBarras_CodigoCompletoCoincideConUnPerfumeExistente_DevuelvePerfumeExacto()
+    {
+        // Arrange
+        const string codigoBarras = "7501234567890";
+        var perfumeDA = Substitute.For<IPerfumeDA>();
+        var perfumeEsperado = new PerfumeResponse { CodigoBarras = codigoBarras, Nombre = "Chanel N. 5" };
+        perfumeDA.BuscarPorCodigoBarras(codigoBarras)
+            .Returns(new List<PerfumeResponse> { perfumeEsperado });
+        var sut = new PerfumeFlujo(perfumeDA);
+
+        // Act
+        var resultado = await sut.BuscarPorCodigoBarras(codigoBarras);
+
+        // Assert
+        resultado.Should().ContainSingle()
+            .Which.CodigoBarras.Should().Be(codigoBarras);
+        await perfumeDA.Received(1).BuscarPorCodigoBarras(codigoBarras);
+    }
 }

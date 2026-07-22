@@ -1,7 +1,7 @@
----
+  ---
 id: US-002
 title: Buscar un producto en el inventario por código de barras
-status: borrador
+status: comprometida
 owner: Por definir
 size: M
 priority: alta
@@ -108,6 +108,11 @@ tener que escribir el código completo a mano*
 
 - ¿Cuántos dígitos finales se consideran "suficientes" para una búsqueda por sufijo? Se sugiere un
   mínimo de 4 para evitar demasiadas coincidencias — confirmar con el PO.
+- **AC-05 queda pendiente hasta que exista `perfumeria-admin`** (`/crear-estructura-spa`). El
+  backend (AC-01 a AC-04) ya está implementado y probado, pero la entrada de pistola lectora es un
+  comportamiento de frontend (campo de búsqueda del panel + detección de tecla Enter) que no puede
+  implementarse ni testearse hasta que esa SPA exista. El `status` de esta historia se mantiene en
+  `comprometida` en vez de `implementada` hasta cerrar este AC.
 
 ---
 

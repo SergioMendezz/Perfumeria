@@ -51,4 +51,19 @@ public class PerfumeControllerTests
         resultadoOk.Value.Should().BeSameAs(resultadoEsperado);
         await perfumeFlujo.Received(1).ObtenerTodos(1, 20, "Mujer", "Eau de Parfum", null);
     }
+
+    // AC-04 (US-002): Requiere autenticación de Admin
+    [Fact]
+    public void BuscarPorCodigoBarras_SinTokenDeRolAdmin_ExigeRolAdmin()
+    {
+        // Arrange
+        var metodo = typeof(PerfumeController).GetMethod(nameof(PerfumeController.BuscarPorCodigoBarras));
+
+        // Act
+        var atributoAutorizacion = metodo!.GetCustomAttribute<AuthorizeAttribute>();
+
+        // Assert
+        atributoAutorizacion.Should().NotBeNull();
+        atributoAutorizacion!.Roles.Should().Be("Admin");
+    }
 }

@@ -1,5 +1,6 @@
 using Abstracciones.Interfaces.DA;
 using Abstracciones.Interfaces.Flujo;
+using Abstracciones.Interfaces.Servicios;
 using DA;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +15,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IPerfumeDA, DA.PerfumeDA>();
 builder.Services.AddScoped<IPerfumeFlujo, Flujo.PerfumeFlujo>();
+builder.Services.AddScoped<IUsuarioDA, DA.UsuarioDA>();
+builder.Services.AddScoped<IJwtService, Servicios.JwtService>();
+builder.Services.AddScoped<IAuthFlujo, Flujo.AuthFlujo>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opciones =>
@@ -26,7 +30,7 @@ builder.Services.AddSwaggerGen(opciones =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Ingresar el token JWT precedido por 'Bearer '"
+         Description = "Ingresar únicamente el token JWT, sin el prefijo 'Bearer ' — Swagger lo agrega automáticamente"
     });
     opciones.AddSecurityRequirement(_ => new OpenApiSecurityRequirement
     {

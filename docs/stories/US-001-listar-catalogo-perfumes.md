@@ -1,13 +1,13 @@
 ---
 id: US-001
 title: Listar el catálogo de perfumes sin necesidad de registro
-status: borrador
+status: implementada
 owner: Por definir
 size: S
 priority: alta
 related_epic: Catálogo público
 tags: [perfume, catalogo, publico, consulta]
-version: 0.1
+version: 0.2
 last-reviewed: 2026-07-21
 ---
 
@@ -111,3 +111,4 @@ last-reviewed: 2026-07-21
 | Versión | Fecha | Autor | Cambios |
 |---|---|---|---|
 | 0.1 | 2026-07-21 | Camila | Versión inicial — historia de ejemplo generada junto con el resto del andamiaje de gobernanza. |
+| 0.2 | 2026-07-21 | Claude Code | Implementados AC-01 a AC-04 (Flujo/DA/API) con pruebas unitarias xUnit+FluentAssertions+NSubstitute en verde. AC-05 (exclusión de perfumes inactivos) queda resuelto en el `WHERE Activo = 1` de `Perfume_Obtener.sql`, sin test unitario propio — requiere un test de integración contra SQL Server, pendiente de la capa de pruebas correspondiente. |
