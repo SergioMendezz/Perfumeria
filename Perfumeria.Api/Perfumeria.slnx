@@ -8,7 +8,10 @@
   </Folder>
   <Project Path="Abstracciones/Abstracciones.csproj" />
   <Project Path="API/API.csproj" />
-  <Project Path="BD/BD.sqlproj" />
+  <Project Path="BD/BD.sqlproj" Id="77da0d15-3f12-4751-8c57-d9bb4cea4c61">
+    <Build />
+    <Deploy />
+  </Project>
   <Project Path="DA/DA.csproj" />
   <Project Path="Flujo/Flujo.csproj" />
   <Project Path="Servicios/Servicios.csproj" />

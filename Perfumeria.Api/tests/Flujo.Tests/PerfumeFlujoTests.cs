@@ -30,4 +30,25 @@ public class PerfumeFlujoTests
         resultado.Total.Should().Be(25);
         await perfumeDA.Received(1).ObtenerTodos(1, 20, null, null, null);
     }
+
+    // AC-04: Categoría con nombre completo, nunca sigla
+    [Fact]
+    public async Task ObtenerPorId_PerfumeConCategoriaEauDeParfumEnBaseDeDatos_DevuelveCategoriaCompletaSinSigla()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        var perfumeDA = Substitute.For<IPerfumeDA>();
+        perfumeDA.ObtenerPorId(id)
+            .Returns(new PerfumeResponse { Id = id, Categoria = "Eau de Parfum" });
+        var sut = new PerfumeFlujo(perfumeDA);
+
+        // Act
+        var resultado = await sut.ObtenerPorId(id);
+
+        // Assert
+        resultado.Should().NotBeNull();
+        resultado!.Categoria.Should().Be("Eau de Parfum");
+        resultado.Categoria.Should().NotBe("EDP");
+        await perfumeDA.Received(1).ObtenerPorId(id);
+    }
 }

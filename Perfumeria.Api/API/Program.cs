@@ -1,15 +1,19 @@
-using System.Text;
 using Abstracciones.Interfaces.DA;
+using Abstracciones.Interfaces.Flujo;
 using DA;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 const string PoliticaCorsSpas = "PoliticaCorsSpas";
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IPerfumeDA, DA.PerfumeDA>();
+builder.Services.AddScoped<IPerfumeFlujo, Flujo.PerfumeFlujo>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opciones =>
