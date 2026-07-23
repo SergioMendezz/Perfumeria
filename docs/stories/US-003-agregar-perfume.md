@@ -117,6 +117,10 @@ last-reviewed: 2026-07-21
   `400 Bad Request` con un mensaje de validación? `docs/vision.md` §5 no lo especifica — se eligió
   `409` por ser la convención estándar para conflictos de unicidad; confirmar antes de implementar
   (`/generar-prueba-desde-ac` para AC-02).
+- **Pendiente técnico:** los AC de autorización (401/403) están cubiertos por test de reflexión, no
+  por ejecución real del middleware. Cuando existan 4-5 endpoints protegidos, evaluar agregar
+  `Microsoft.AspNetCore.Mvc.Testing` + `WebApplicationFactory<Program>` como un ciclo aparte de tests
+  de integración, cubriendo todos de una vez.
 
 ---
 
@@ -125,3 +129,4 @@ last-reviewed: 2026-07-21
 | Versión | Fecha | Autor | Cambios |
 |---|---|---|---|
 | 0.1 | 2026-07-21 | Claude Code | Versión inicial — generada con `/generar-historia-de-usuario`. |
+| 0.2 | 2026-07-22 | Claude Code | Se agregó pendiente técnico en §8 sobre cobertura real de autorización (401/403) vía tests de integración. |

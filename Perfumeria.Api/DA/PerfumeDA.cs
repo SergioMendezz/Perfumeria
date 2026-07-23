@@ -92,7 +92,34 @@ public class PerfumeDA : IPerfumeDA
 
     public Task<PerfumeResponse> Crear(PerfumeRequest request)
     {
-        throw new NotImplementedException();
+        using var conexion = _repositorioDapper.ObtenerRepositorio();
+        var parametros = new
+        {
+            request.IdMarca,
+            request.Nombre,
+            request.CodigoBarras,
+            request.Genero,
+            request.Categoria,
+            request.ImagenUrl,
+            request.Descripcion
+        };
+        var fila = conexion.QueryFirst(
+            "Perfume_Crear",
+            parametros,
+            commandType: CommandType.StoredProcedure);
+
+        return Task.FromResult(new PerfumeResponse
+        {
+            Id = fila.Id,
+            Marca = fila.Marca,
+            Nombre = fila.Nombre,
+            CodigoBarras = fila.CodigoBarras,
+            Genero = fila.Genero,
+            Categoria = fila.Categoria,
+            ImagenUrl = fila.ImagenUrl,
+            Descripcion = fila.Descripcion,
+            Activo = fila.Activo
+        });
     }
 
     public Task<PerfumeResponse> Editar(Guid id, PerfumeRequest request)

@@ -66,4 +66,61 @@ public class PerfumeControllerTests
         atributoAutorizacion.Should().NotBeNull();
         atributoAutorizacion!.Roles.Should().Be("Admin");
     }
+
+    // AC-03: Requiere autenticación de Admin
+    [Fact]
+    public void Crear_SinTokenValidoDeAdmin_ExigeRolAdmin()
+    {
+        // Arrange
+        var metodo = typeof(PerfumeController).GetMethod(nameof(PerfumeController.Crear));
+
+        // Act
+        var atributoAutorizacion = metodo!.GetCustomAttribute<AuthorizeAttribute>();
+
+        // Assert
+        atributoAutorizacion.Should().NotBeNull();
+        atributoAutorizacion!.Roles.Should().Be("Admin");
+    }
+
+    // AC-01: Alta exitosa de un perfume nuevo
+    [Fact]
+    public async Task Crear_DatosValidos_Retorna201ConPerfumeCreado()
+    {
+        // Arrange
+        var perfumeFlujo = Substitute.For<IPerfumeFlujo>();
+        var request = new PerfumeRequest
+        {
+            IdMarca = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+            Nombre = "Dior Sauvage",
+            CodigoBarras = "7501234567890",
+            Genero = "Hombre",
+            Categoria = "Eau de Parfum",
+            ImagenUrl = "https://cdn.example.com/dior-sauvage.jpg"
+        };
+        var respuestaEsperada = new PerfumeResponse
+        {
+            Id = Guid.NewGuid(),
+            Marca = "Dior",
+            Nombre = request.Nombre,
+            CodigoBarras = request.CodigoBarras,
+            Genero = request.Genero,
+            Categoria = request.Categoria,
+            ImagenUrl = request.ImagenUrl,
+            Activo = true
+        };
+        perfumeFlujo.Crear(request).Returns(respuestaEsperada);
+        var sut = new PerfumeController(perfumeFlujo);
+
+        // Act
+        var respuesta = await sut.Crear(request);
+
+        // Assert
+        var resultadoCreado = respuesta.Should().BeOfType<CreatedAtActionResult>().Subject;
+        resultadoCreado.StatusCode.Should().Be(201);
+        var perfumeCreado = resultadoCreado.Value.Should().BeOfType<PerfumeResponse>().Subject;
+        perfumeCreado.Id.Should().NotBeEmpty();
+        perfumeCreado.Activo.Should().BeTrue();
+        perfumeCreado.Should().BeSameAs(respuestaEsperada);
+        await perfumeFlujo.Received(1).Crear(request);
+    }
 }

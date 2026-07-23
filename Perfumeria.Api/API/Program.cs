@@ -14,6 +14,7 @@ const string PoliticaCorsSpas = "PoliticaCorsSpas";
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IPerfumeDA, DA.PerfumeDA>();
+builder.Services.AddScoped<IMarcaDA, DA.MarcaDA>();
 builder.Services.AddScoped<IPerfumeFlujo, Flujo.PerfumeFlujo>();
 builder.Services.AddScoped<IUsuarioDA, DA.UsuarioDA>();
 builder.Services.AddScoped<IJwtService, Servicios.JwtService>();

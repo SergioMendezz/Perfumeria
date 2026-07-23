@@ -1,4 +1,5 @@
 using Abstracciones.Interfaces.Flujo;
+using Abstracciones.Modelos.Perfume;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,5 +39,13 @@ public class PerfumeController : ControllerBase
     {
         var resultado = await _perfumeFlujo.BuscarPorCodigoBarras(codigo);
         return Ok(resultado);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    public async Task<IActionResult> Crear(PerfumeRequest request)
+    {
+        var resultado = await _perfumeFlujo.Crear(request);
+        return CreatedAtAction(nameof(ObtenerPorId), new { id = resultado.Id }, resultado);
     }
 }

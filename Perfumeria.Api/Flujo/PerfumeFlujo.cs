@@ -1,17 +1,21 @@
+using Abstracciones.Excepciones;
 using Abstracciones.Interfaces.DA;
 using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos.Compartido;
 using Abstracciones.Modelos.Perfume;
+using Flujo.Normalizacion;
 
 namespace Flujo;
 
 public class PerfumeFlujo : IPerfumeFlujo
 {
     private readonly IPerfumeDA _perfumeDA;
+    private readonly IMarcaDA _marcaDA;
 
-    public PerfumeFlujo(IPerfumeDA perfumeDA)
+    public PerfumeFlujo(IPerfumeDA perfumeDA, IMarcaDA marcaDA)
     {
         _perfumeDA = perfumeDA;
+        _marcaDA = marcaDA;
     }
 
     public Task<ResultadoPaginado<PerfumeResponse>> ObtenerTodos(int pagina, int tamano, string? genero, string? categoria, Guid? idMarca)
@@ -29,9 +33,30 @@ public class PerfumeFlujo : IPerfumeFlujo
         return _perfumeDA.BuscarPorCodigoBarras(codigo);
     }
 
-    public Task<PerfumeResponse> Crear(PerfumeRequest request)
+    public async Task<PerfumeResponse> Crear(PerfumeRequest request)
     {
-        throw new NotImplementedException();
+        await ValidarCodigoBarrasNoDuplicado(request.CodigoBarras);
+        ValidarCategoria(request.Categoria);
+        request.Nombre = NormalizadorNombreProducto.Normalizar(request.Nombre);
+        await _marcaDA.ObtenerPorId(request.IdMarca);
+        return await _perfumeDA.Crear(request);
+    }
+
+    private async Task ValidarCodigoBarrasNoDuplicado(string codigoBarras)
+    {
+        var coincidencias = await _perfumeDA.BuscarPorCodigoBarras(codigoBarras);
+        if (coincidencias.Any(p => p.CodigoBarras == codigoBarras))
+        {
+            throw new CodigoBarrasDuplicadoException(codigoBarras);
+        }
+    }
+
+    private static void ValidarCategoria(string categoria)
+    {
+        if (!CategoriasPerfume.Validas.Contains(categoria))
+        {
+            throw new CategoriaInvalidaException(categoria);
+        }
     }
 
     public Task<PerfumeResponse> Editar(Guid id, PerfumeRequest request)
