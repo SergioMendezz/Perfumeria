@@ -21,18 +21,7 @@ public class PerfumeDA : IPerfumeDA
         var parametros = new { Pagina = pagina, Tamano = tamano, Genero = genero, Categoria = categoria, IdMarca = idMarca };
         var filas = conexion.Query("Perfume_Obtener", parametros, commandType: CommandType.StoredProcedure).ToList();
 
-        var items = filas.Select(fila => new PerfumeResponse
-        {
-            Id = fila.Id,
-            Marca = fila.Marca,
-            Nombre = fila.Nombre,
-            CodigoBarras = fila.CodigoBarras,
-            Genero = fila.Genero,
-            Categoria = fila.Categoria,
-            ImagenUrl = fila.ImagenUrl,
-            Descripcion = fila.Descripcion,
-            Activo = fila.Activo
-        }).ToList();
+        var items = filas.Select(fila => (PerfumeResponse)MapearFila(fila, fila.Activo)).ToList();
 
         var total = filas.Count > 0 ? (int)filas[0].Total : 0;
 
@@ -52,18 +41,7 @@ public class PerfumeDA : IPerfumeDA
             return Task.FromResult<PerfumeResponse?>(null);
         }
 
-        return Task.FromResult<PerfumeResponse?>(new PerfumeResponse
-        {
-            Id = fila.Id,
-            Marca = fila.Marca,
-            Nombre = fila.Nombre,
-            CodigoBarras = fila.CodigoBarras,
-            Genero = fila.Genero,
-            Categoria = fila.Categoria,
-            ImagenUrl = fila.ImagenUrl,
-            Descripcion = fila.Descripcion,
-            Activo = fila.Activo
-        });
+        return Task.FromResult<PerfumeResponse?>((PerfumeResponse)MapearFila(fila, fila.Activo));
     }
 
     public Task<IEnumerable<PerfumeResponse>> BuscarPorCodigoBarras(string codigo)
@@ -74,18 +52,7 @@ public class PerfumeDA : IPerfumeDA
             new { Codigo = codigo },
             commandType: CommandType.StoredProcedure).ToList();
 
-        IEnumerable<PerfumeResponse> items = filas.Select(fila => new PerfumeResponse
-        {
-            Id = fila.Id,
-            Marca = fila.Marca,
-            Nombre = fila.Nombre,
-            CodigoBarras = fila.CodigoBarras,
-            Genero = fila.Genero,
-            Categoria = fila.Categoria,
-            ImagenUrl = fila.ImagenUrl,
-            Descripcion = fila.Descripcion,
-            Activo = fila.Activo
-        }).ToList();
+        IEnumerable<PerfumeResponse> items = filas.Select(fila => (PerfumeResponse)MapearFila(fila, fila.Activo)).ToList();
 
         return Task.FromResult(items);
     }
@@ -108,7 +75,34 @@ public class PerfumeDA : IPerfumeDA
             parametros,
             commandType: CommandType.StoredProcedure);
 
-        return Task.FromResult(new PerfumeResponse
+        return Task.FromResult((PerfumeResponse)MapearFila(fila, fila.Activo ?? true));
+    }
+
+    public Task<PerfumeResponse> Editar(Guid id, PerfumeRequest request)
+    {
+        using var conexion = _repositorioDapper.ObtenerRepositorio();
+        var parametros = new
+        {
+            Id = id,
+            request.IdMarca,
+            request.Nombre,
+            request.CodigoBarras,
+            request.Genero,
+            request.Categoria,
+            request.ImagenUrl,
+            request.Descripcion
+        };
+        var fila = conexion.QueryFirst(
+            "Perfume_Editar",
+            parametros,
+            commandType: CommandType.StoredProcedure);
+
+        return Task.FromResult((PerfumeResponse)MapearFila(fila, fila.Activo ?? true));
+    }
+
+    private static PerfumeResponse MapearFila(dynamic fila, bool activo)
+    {
+        return new PerfumeResponse
         {
             Id = fila.Id,
             Marca = fila.Marca,
@@ -118,13 +112,8 @@ public class PerfumeDA : IPerfumeDA
             Categoria = fila.Categoria,
             ImagenUrl = fila.ImagenUrl,
             Descripcion = fila.Descripcion,
-            Activo = fila.Activo
-        });
-    }
-
-    public Task<PerfumeResponse> Editar(Guid id, PerfumeRequest request)
-    {
-        throw new NotImplementedException();
+            Activo = activo
+        };
     }
 
     public Task Eliminar(Guid id)

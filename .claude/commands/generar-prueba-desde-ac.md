@@ -6,6 +6,11 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob
 
 # Comando · Generar prueba desde AC (fase 🔴 RED)
 
+> ⚠️ **Delegación obligatoria:** si el stack objetivo (`$ARGUMENTS`) es `backend`, este comando
+> **MUST** delegarse al subagente `programador-api` (vía Task tool) en vez de ejecutarse
+> directamente en el contexto principal. Si es `frontend`, delegar en `programador-spa-react`. Ver
+> `.claude/agents/programador-api.md` y `.claude/agents/programador-spa-react.md`.
+
 ## Objetivo
 Crear una prueba unitaria **que falla**, derivada directamente de un criterio de aceptación.
 

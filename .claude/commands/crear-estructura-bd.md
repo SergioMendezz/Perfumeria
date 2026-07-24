@@ -5,6 +5,10 @@ allowed-tools: Bash, Read, Write, Edit, Glob
 
 # Comando · Crear estructura de base de datos (BD/)
 
+> ⚠️ **Delegación obligatoria:** este comando es de stack backend y **MUST** delegarse al
+> subagente `programador-api` (vía Task tool) en vez de ejecutarse directamente en el contexto
+> principal. Ver `.claude/agents/programador-api.md`.
+
 ## Objetivo
 Generar `Perfumeria.Api/BD/BD.sqlproj` con tablas y stored procedures derivados de `docs/vision.md`.
 

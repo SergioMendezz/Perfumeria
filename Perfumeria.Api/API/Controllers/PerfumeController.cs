@@ -1,3 +1,4 @@
+using Abstracciones.Excepciones;
 using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos.Perfume;
 using Microsoft.AspNetCore.Authorization;
@@ -45,7 +46,37 @@ public class PerfumeController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Crear(PerfumeRequest request)
     {
-        var resultado = await _perfumeFlujo.Crear(request);
-        return CreatedAtAction(nameof(ObtenerPorId), new { id = resultado.Id }, resultado);
+        try
+        {
+            var resultado = await _perfumeFlujo.Crear(request);
+            return CreatedAtAction(nameof(ObtenerPorId), new { id = resultado.Id }, resultado);
+        }
+        catch (CodigoBarrasDuplicadoException excepcion)
+        {
+            return Conflict(excepcion.Message);
+        }
+        catch (CategoriaInvalidaException excepcion)
+        {
+            return BadRequest(excepcion.Message);
+        }
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Editar(Guid id, PerfumeRequest request)
+    {
+        try
+        {
+            var resultado = await _perfumeFlujo.Editar(id, request);
+            return Ok(resultado);
+        }
+        catch (PerfumeNoEncontradoException excepcion)
+        {
+            return NotFound(excepcion.Message);
+        }
+        catch (CodigoBarrasDuplicadoException excepcion)
+        {
+            return Conflict(excepcion.Message);
+        }
     }
 }

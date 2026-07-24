@@ -6,6 +6,10 @@ allowed-tools: Read, Write, Glob
 
 # Comando · Generar historia de usuario (US)
 
+> ⚠️ **Delegación obligatoria:** este comando **MUST** delegarse al subagente
+> `analista-requisitos` (vía Task tool) en vez de ejecutarse directamente en el contexto principal.
+> Ver `.claude/agents/analista-requisitos.md`.
+
 ## Objetivo
 Crear `docs/stories/US-###-<nombre>.md` como punto de partida ejecutable para el ciclo SDD+TDD.
 

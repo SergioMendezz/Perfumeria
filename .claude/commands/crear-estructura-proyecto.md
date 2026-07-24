@@ -5,6 +5,10 @@ allowed-tools: Bash, Read, Write, Edit, Glob
 
 # Comando · Crear estructura del proyecto backend
 
+> ⚠️ **Delegación obligatoria:** este comando es de stack backend y **MUST** delegarse al
+> subagente `programador-api` (vía Task tool) en vez de ejecutarse directamente en el contexto
+> principal. Ver `.claude/agents/programador-api.md`.
+
 ## Objetivo
 Generar la solución .NET completa de `Perfumeria.Api` con las 5 capas de `ADR-003`, lista para
 comenzar el ciclo TDD.

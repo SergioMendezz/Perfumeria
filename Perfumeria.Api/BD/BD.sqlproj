@@ -6,7 +6,7 @@
     <Name>BD</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{77DA0D15-3F12-4751-8C57-D9BB4CEA4C61}</ProjectGuid>
+    <ProjectGuid>{77da0d15-3f12-4751-8c57-d9bb4cea4c61}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
@@ -14,6 +14,7 @@
     <RootNamespace>BD</RootNamespace>
     <AssemblyName>BD</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetLanguage>CS</TargetLanguage>

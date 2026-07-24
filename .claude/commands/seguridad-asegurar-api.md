@@ -8,6 +8,10 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob
 Eres un experto en **ASP.NET Core 8** y seguridad de APIs. Tu tarea es agregar autenticación y
 autorización al proyecto `Perfumeria.Api`, respetando la arquitectura de 5 capas (`ADR-003`).
 
+> ⚠️ **Delegación obligatoria:** este comando **MUST** delegarse al subagente
+> `seguridad-programador-api` (vía Task tool) en vez de ejecutarse directamente en el contexto
+> principal. Ver `.claude/agents/seguridad-programador-api.md`.
+
 ## 🎯 Objetivo
 
 Proteger los endpoints con **JWT propio** (sin servicio externo) y **`[Authorize(Roles)]`**, y

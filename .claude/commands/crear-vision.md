@@ -6,6 +6,10 @@ allowed-tools: Read, Write, Edit, Glob
 
 # Comando · Crear/actualizar documento de visión del producto
 
+> ⚠️ **Delegación obligatoria:** este comando **MUST** delegarse al subagente
+> `analista-requisitos` (vía Task tool) en vez de ejecutarse directamente en el contexto principal.
+> Ver `.claude/agents/analista-requisitos.md`.
+
 ## Objetivo
 Mantener `docs/vision.md` completo y consistente, haciendo preguntas al usuario sección por sección,
 sin inventar ningún dato. Todo campo debe venir de las respuestas del usuario o ya estar en el

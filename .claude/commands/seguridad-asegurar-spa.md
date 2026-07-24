@@ -9,6 +9,10 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob
 Eres un experto en **React + TypeScript + Vite** y consumo seguro de APIs con JWT. Tu tarea es
 agregar autenticación a la SPA indicada en `$ARGUMENTS`, consumiendo `Perfumeria.Api`.
 
+> ⚠️ **Delegación obligatoria:** este comando **MUST** delegarse al subagente
+> `seguridad-programador-spa` (vía Task tool) en vez de ejecutarse directamente en el contexto
+> principal. Ver `.claude/agents/seguridad-programador-spa.md`.
+
 ## 🎯 Objetivo
 
 - Hacer login contra `POST {VITE_API_URL}/auth/login`.

@@ -35,17 +35,38 @@ public class PerfumeFlujo : IPerfumeFlujo
 
     public async Task<PerfumeResponse> Crear(PerfumeRequest request)
     {
-        await ValidarCodigoBarrasNoDuplicado(request.CodigoBarras);
-        ValidarCategoria(request.Categoria);
-        request.Nombre = NormalizadorNombreProducto.Normalizar(request.Nombre);
-        await _marcaDA.ObtenerPorId(request.IdMarca);
+        await ValidarYNormalizarPerfume(request, idExcluido: null);
         return await _perfumeDA.Crear(request);
     }
 
-    private async Task ValidarCodigoBarrasNoDuplicado(string codigoBarras)
+    public async Task<PerfumeResponse> Editar(Guid id, PerfumeRequest request)
+    {
+        await ValidarExistencia(id);
+        await ValidarYNormalizarPerfume(request, idExcluido: id);
+        return await _perfumeDA.Editar(id, request);
+    }
+
+    private async Task ValidarExistencia(Guid id)
+    {
+        var perfumeExistente = await _perfumeDA.ObtenerPorId(id);
+        if (perfumeExistente is null)
+        {
+            throw new PerfumeNoEncontradoException(id);
+        }
+    }
+
+    private async Task ValidarYNormalizarPerfume(PerfumeRequest request, Guid? idExcluido)
+    {
+        await ValidarCodigoBarrasNoDuplicado(request.CodigoBarras, idExcluido);
+        ValidarCategoria(request.Categoria);
+        request.Nombre = NormalizadorNombreProducto.Normalizar(request.Nombre);
+        await _marcaDA.ObtenerPorId(request.IdMarca);
+    }
+
+    private async Task ValidarCodigoBarrasNoDuplicado(string codigoBarras, Guid? idExcluido)
     {
         var coincidencias = await _perfumeDA.BuscarPorCodigoBarras(codigoBarras);
-        if (coincidencias.Any(p => p.CodigoBarras == codigoBarras))
+        if (coincidencias.Any(p => p.CodigoBarras == codigoBarras && p.Id != idExcluido))
         {
             throw new CodigoBarrasDuplicadoException(codigoBarras);
         }
@@ -57,11 +78,6 @@ public class PerfumeFlujo : IPerfumeFlujo
         {
             throw new CategoriaInvalidaException(categoria);
         }
-    }
-
-    public Task<PerfumeResponse> Editar(Guid id, PerfumeRequest request)
-    {
-        throw new NotImplementedException();
     }
 
     public Task Eliminar(Guid id)

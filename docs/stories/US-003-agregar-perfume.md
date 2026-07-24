@@ -1,14 +1,14 @@
 ---
 id: US-003
 title: Agregar un perfume nuevo al catálogo
-status: borrador
+status: implementada
 owner: Por definir
 size: M
 priority: alta
 related_epic: Gestión de catálogo (panel admin)
 tags: [perfume, catalogo, admin, panel, alta]
-version: 0.1
-last-reviewed: 2026-07-21
+version: 0.3
+last-reviewed: 2026-07-24
 ---
 
 # US-003 · Agregar un perfume nuevo al catálogo
@@ -130,3 +130,4 @@ last-reviewed: 2026-07-21
 |---|---|---|---|
 | 0.1 | 2026-07-21 | Claude Code | Versión inicial — generada con `/generar-historia-de-usuario`. |
 | 0.2 | 2026-07-22 | Claude Code | Se agregó pendiente técnico en §8 sobre cobertura real de autorización (401/403) vía tests de integración. |
+| 0.3 | 2026-07-24 | Claude Code | AC-01 a AC-05 implementados y probados en las 3 capas (Flujo/DA/API). Se detectó y corrigió durante auditoría que `PerfumeController.Crear` no traducía `CodigoBarrasDuplicadoException`/`CategoriaInvalidaException` a `409`/`400` (habría devuelto `500`) — cerrado con ciclo RED→GREEN y tests de API (`Crear_CodigoBarrasDuplicado_Retorna409`, `Crear_CategoriaAbreviadaOInvalida_Retorna400`). |

@@ -15,9 +15,9 @@ BEGIN
     BEGIN TRANSACTION;
 
     INSERT INTO [dbo].[Perfumes]
-        ([Id], [IdMarca], [Nombre], [CodigoBarras], [Genero], [Categoria], [ImagenUrl], [Descripcion])
+        ([Id], [IdMarca], [Nombre], [CodigoBarras], [Genero], [Categoria], [ImagenUrl], [Descripcion], [Activo])
     VALUES
-        (@Id, @IdMarca, @Nombre, @CodigoBarras, @Genero, @Categoria, @ImagenUrl, @Descripcion);
+        (@Id, @IdMarca, @Nombre, @CodigoBarras, @Genero, @Categoria, @ImagenUrl, @Descripcion, 1);
 
     COMMIT TRANSACTION;
 

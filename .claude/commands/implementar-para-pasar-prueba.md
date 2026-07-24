@@ -6,6 +6,11 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob
 
 # Comando · Implementar para pasar la prueba (fase 🟢 GREEN)
 
+> ⚠️ **Delegación obligatoria:** si el stack (`$ARGUMENTS`) es `backend`, este comando **MUST**
+> delegarse al subagente `programador-api` (vía Task tool) en vez de ejecutarse directamente en el
+> contexto principal. Si es `frontend`, delegar en `programador-spa-react`. Ver
+> `.claude/agents/programador-api.md` y `.claude/agents/programador-spa-react.md`.
+
 ## Objetivo
 Escribir el **código mínimo necesario** para que una prueba que actualmente falla pase, sin agregar
 funcionalidad no cubierta por la prueba (YAGNI).

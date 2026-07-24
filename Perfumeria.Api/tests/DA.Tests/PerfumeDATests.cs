@@ -184,4 +184,59 @@ public class PerfumeDATests
         resultado.ImagenUrl.Should().Be("https://cdn.example.com/dior-sauvage.jpg");
         repositorioDapper.Received(1).ObtenerRepositorio();
     }
+
+    // AC-01: Edición exitosa de un perfume existente
+    [Fact]
+    public async Task Editar_PerfumeExistente_ActualizaNombreYImagen()
+    {
+        // Arrange
+        var id = Guid.Parse("b2c1a900-1111-4a2b-9c3d-000000000001");
+        var idMarca = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+        var request = new PerfumeRequest
+        {
+            IdMarca = idMarca,
+            Nombre = "Dior Sauvage Elixir",
+            CodigoBarras = "7501234567890",
+            Genero = "Hombre",
+            Categoria = "Eau de Parfum",
+            ImagenUrl = "https://cdn.example.com/dior-sauvage-elixir.jpg"
+        };
+
+        var columnas = new[] { "Id", "Marca", "Nombre", "CodigoBarras", "Genero", "Categoria", "ImagenUrl", "Descripcion", "Activo" };
+        var valoresFila = new object[]
+        {
+            id, "Dior", request.Nombre, request.CodigoBarras, request.Genero, request.Categoria, request.ImagenUrl, DBNull.Value, true
+        };
+
+        var filaActual = -1;
+        var lector = Substitute.For<IDataReader>();
+        lector.FieldCount.Returns(columnas.Length);
+        lector.GetName(Arg.Any<int>()).Returns(ci => columnas[ci.Arg<int>()]);
+        lector.Read().Returns(_ => { filaActual++; return filaActual == 0; });
+        lector.GetValue(Arg.Any<int>()).Returns(ci => valoresFila[ci.Arg<int>()]);
+        lector.IsDBNull(Arg.Any<int>()).Returns(ci => valoresFila[ci.Arg<int>()] == DBNull.Value);
+        lector.NextResult().Returns(false);
+
+        var comando = Substitute.For<IDbCommand>();
+        comando.Parameters.Returns(Substitute.For<IDataParameterCollection>());
+        comando.CreateParameter().Returns(_ => Substitute.For<IDbDataParameter>());
+        comando.ExecuteReader(Arg.Any<CommandBehavior>()).Returns(lector);
+
+        var conexion = Substitute.For<IDbConnection>();
+        conexion.CreateCommand().Returns(comando);
+
+        var repositorioDapper = Substitute.For<IRepositorioDapper>();
+        repositorioDapper.ObtenerRepositorio().Returns(conexion);
+
+        var sut = new PerfumeDA(repositorioDapper);
+
+        // Act
+        var resultado = await sut.Editar(id, request);
+
+        // Assert
+        resultado.Id.Should().Be(id);
+        resultado.Nombre.Should().Be("Dior Sauvage Elixir");
+        resultado.ImagenUrl.Should().Be("https://cdn.example.com/dior-sauvage-elixir.jpg");
+        repositorioDapper.Received(1).ObtenerRepositorio();
+    }
 }

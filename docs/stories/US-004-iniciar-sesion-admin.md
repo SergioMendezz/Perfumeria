@@ -1,14 +1,14 @@
 ---
 id: US-004
 title: Iniciar sesión en el panel de administración
-status: borrador
+status: comprometida
 owner: Por definir
 size: S
 priority: alta
 related_epic: Autenticación y seguridad
 tags: [auth, login, admin, seguridad, jwt]
-version: 0.1
-last-reviewed: 2026-07-21
+version: 0.2
+last-reviewed: 2026-07-24
 ---
 
 # US-004 · Iniciar sesión en el panel de administración
@@ -122,6 +122,14 @@ last-reviewed: 2026-07-21
   con que el código HTTP sea el mismo? Se asume mensaje genérico idéntico por buena práctica de
   seguridad (evitar enumeración de usuarios) — confirmar redacción exacta con el PO antes de
   implementar.
+- ⚠️ **Cobertura incompleta confirmada el 2026-07-24:** los AC-01 a AC-05 están implementados y
+  probados en `Flujo.Tests` (`AuthFlujoTests`) y en `DA.Tests` (`UsuarioDATests`, para
+  `ObtenerCredencialesPorEmail`/`ActualizarUltimoAcceso`), pero **no existe `AuthControllerTests.cs`**
+  — no hay ningún test automatizado que confirme que `AuthController.Login` traduce
+  `CredencialesInvalidasException` a `401` o el login exitoso a `200` con el token. Al leer el código
+  real, `AuthController.Login` sí tiene el `try/catch` correcto, pero eso no está verificado por
+  prueba alguna. El `status` se mantiene en `comprometida` hasta agregar esa cobertura de capa API
+  (ciclo `/generar-prueba-desde-ac US-004 AC-01 backend API`, y así sucesivamente para los demás AC).
 
 ---
 
@@ -130,3 +138,4 @@ last-reviewed: 2026-07-21
 | Versión | Fecha | Autor | Cambios |
 |---|---|---|---|
 | 0.1 | 2026-07-21 | Claude Code | Versión inicial — generada con `/generar-historia-de-usuario`. |
+| 0.2 | 2026-07-24 | Claude Code | Confirmado que AC-01 a AC-05 están implementados y probados en `Flujo.Tests`/`DA.Tests`, pero falta cobertura de capa API (`AuthControllerTests.cs` no existe). Status queda en `comprometida` hasta cerrar ese hueco — ver nota en §8. |
